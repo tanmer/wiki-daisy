@@ -1,100 +1,17 @@
-# wiki帮助中心 模板
+# Wiki Daisy 模板
 
 ## 介绍
 
+基于DaisyUI构建的内容驱动型知识库门户。多主题风格，多组件样式，适合定制化系统。
+
+教程： https://help.baklib.cn/themes/daisy-wiki
+
 ## 开发
 
-```bash
-npm run dev
-```
+如何通过 git 将模板挂载到 Baklib: https://dev.baklib.cn/guide/git
 
-### 安装配置TailwindCSS
-[TailwindCSS官网](https://www.tailwindcss.cn/docs/installation)
+## 预览
 
-#### 1.安装Tailwindcss
-通过`npm`安装`tailwindcss`，然后创建`tailwind.config.js`配置文件
-```bash
-npm add -D tailwindcss
-npx tailwindcss init
-```
-#### 2.配置模板文件的路径和自定义样式
-```javascript
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./templates/**/*.liquid", "./snippets/**/*.liquid", "./layout/**/*.liquid", "./statics/**/*.liquid"],
-  darkMode: 'class',
-  theme: {
-    extend: {
-      colors: () => {
-        return {
-          slate: {
-            150: "#E9EEF5"
-          },
-          ...["primary", "secondary", "accent", "info", "success", "warning"].reduce((map, name) => {
-            return {
-              ...map,
-              [name]: {
-                DEFAULT: `hsl(var(--theme-color-${name}) / <alpha-value>)`,
-                lighten: `hsl(var(--theme-color-${name}-hsl-h) var(--theme-color-${name}-hsl-s) calc(var(--theme-color-${name}-hsl-l) + 15%))`,
-                darken: `hsl(var(--theme-color-${name}-hsl-h) var(--theme-color-${name}-hsl-s) calc(var(--theme-color-${name}-hsl-l) - 15%))`,
-                ...[50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].reduce((map,lightness) => {
-                  return {
-                    ...map,
-                    [lightness]: `hsl(var(--theme-color-${name}-hsl-h) var(--theme-color-${name}-hsl-s) ${100 - lightness/10*0.8}%)`
-                  }
-                }, {})
-              }
-            }
-          }, {}),
-          // 错误色永远是红色，饱和度与主色调保持一致
-          error: {
-            DEFAULT: `hsl(355 75% var(--theme-color-primary-hsl-l) / <alpha-value>)`,
-            lighten: `hsl(355 75% calc(var(--theme-color-primary-hsl-l) + 15%))`,
-            darken: `hsl(355 75% calc(var(--theme-color-primary-hsl-l) - 15%))`,
-            ...[50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].reduce((map,lightness) => {
-              return {
-                ...map,
-                [lightness]: `hsl(355 75% ${100 - lightness/10*0.8}%)`
-              }
-            }, {})
-          }
-        }
-      },
-      spacing: {
-        4.5: "1.125rem",
-        5.5: "1.375rem",
-        18: "4.5rem",
-      },
-    },
-  },
-  plugins: [],
-}
-```
-#### 3.引入Tailwindcss到css文件中
-例如：`./src/main.css`
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@config '../tailwind.config.js'
-```
-#### 4.在`package.json`中配置css编译路径
-```json
-"scripts": {
-  "build": "npm-run-all --parallel build:css build:js",
-  "build:css": "npx tailwindcss -i ./src/main.css -o ./assets/css/main.css",
-  ......
-  "dev": "npm-run-all --parallel 'build:css -- --watch' 'build:js -- --watch'"
-}
-```
-#### 5.在`theme.liquid`文件中引入css
-```html
-{{ 'css/main.css' | asset_url | stylesheet_tag: data-turbo-track: 'reload' }}
-```
+!()[https://tanmer.baklib.com/-/dam/assets/organization_pry3c5/eyJfcmFpbHMiOnsiZGF0YSI6eyJpZCI6MzY2OCwicGF0aCI6ImRhaXN5IHdpa2kgZGV0YWlsIHRoZW1lMS5wbmciLCJ0aW1lc3RhbXAiOiIyMDI0LTA2LTIyIDE1OjUwOjAzICswODAwIn0sInB1ciI6Im9yZ2FuaXphdGlvbl9wcnkzYzUifX0--61ce65c9020313f7015c34e38d1dda6a0e3b1f374185f265d14bd6af6750571d/daisy%20wiki%20detail%20theme1.png]
 
-
-## 编译&发布
-
-```bash
-yarn build
-```
+!()[https://tanmer.baklib.com/-/dam/assets/organization_pry3c5/eyJfcmFpbHMiOnsiZGF0YSI6eyJpZCI6MzY2NywicGF0aCI6ImRhaXN5IHdpa2kgZGV0YWlsIHRhZ3MucG5nIiwidGltZXN0YW1wIjoiMjAyNC0wNi0yMiAxNTo1MDowMyArMDgwMCJ9LCJwdXIiOiJvcmdhbml6YXRpb25fcHJ5M2M1In19--a21f7567bc2449610cfa38efe9005e7aa35c219105b7b9105ede80298b0d54fb/daisy%20wiki%20detail%20tags.png]
