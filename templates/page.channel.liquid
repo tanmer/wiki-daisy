@@ -1,0 +1,87 @@
+{%# layout 'documentation' %}
+{% assign pages = page.children_in_list %}
+
+
+<!-- ========== MAIN CONTENT ========== -->
+{%# data-turbo-action="advance" 修复栏目列表点击后，URL 不改变的问题。%}
+<turbo-frame id="main-content" data-turbo-action="advance">
+  <div class="flex justify-between p-5 md:p-10 md:pt-10 xl:gap-20">
+    <article class="flex flex-col max-w-5xl">
+        {% # 面包屑导航 %}
+        <div class="text-sm breadcrumbs pt-0 pb-4">
+          {% render 'breadcrumb', breadcrumb: page.breadcrumb  %}
+        </div>
+
+        <section class="mb-10 max-w-3xl">
+          <div>
+            <h1 class="flex items-center mb-2 text-2xl font-bold sm:text-3xl xl:text-4xl">
+              {{ page.settings.title }}
+            </h1>
+            <div class="flow-root mt-8">
+              <div class="overflow-auto">
+                <div data-controller="view_images"
+                  class="ProseMirror break-words scroll-mt-96 scroll-pt-72">
+                  {{ page.settings.content }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider my-5"></div>
+          {% paginate_tag pages, per: 25 %}
+            <ul class="list-disc list-inside space-y-2">
+              {% for sub_page in pages %}
+                <li><a href="{{ sub_page.path }}" class="text-md text-wrap">{{ sub_page.link_text }}</a></li>
+              {% endfor %}
+            </ul>
+            <!-- Pagination -->
+            {% render 'paginate', paginate: paginate %}
+          {% endpaginate_tag %}
+        </section>
+    </article>
+    {% # 栏目页右边栏，可选 %}
+    <div class="hidden w-64 xl:sticky xl:block xl:top-28">
+      <!-- Features One -->
+      {% if site.settings.features_one %}
+        {{ site.settings.features_one }}
+      {% endif %}
+      <!--Features One -->
+    </div>
+  </div>
+</turbo-frame>
+<!-- ========== END SECONDARY CONTENT ========== -->
+
+{% schema %}
+    {
+    "name": "Page Channel",
+    "description": "The Page as a channel section",
+    "thumb_url": "images/theme/page-channel.png",
+    "preview_image_urls": [
+      "images/theme/page-channel.png"
+    ],
+    "sub_page_templates": ["page"],
+    "settings": [
+      {
+        "id": "icon",
+        "type": "image_picker",
+        "ratio": "1:1",
+        "width": 60,
+        "label": "图标"
+      },
+      {
+        "id": "title",
+        "type": "text",
+        "readonly": true,
+        "label": "标题",
+        "info": "知识库同步，不可编辑"
+      },
+      {
+        "id": "content",
+        "type": "richtext",
+        "label": "t:settings_schema.page.settings.content.label",
+        "readonly": true,
+        "info": "t:settings_schema.page.settings.content.info"
+      }
+    ]
+    }
+{% endschema %}
